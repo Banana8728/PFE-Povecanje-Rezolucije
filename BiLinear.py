@@ -1,15 +1,5 @@
 #Potrebno za import
 
-#from __future__ import print_function
-#from pylab import *
-#
-#from ipywidgets import interact, interactive, fixed, interact_manual
-#import ipywidgets as widgets
-#
-#import skimage
-#from skimage import *
-#from skimage.color import *
-#from skimage import io
 #import numpy as np
 
 
