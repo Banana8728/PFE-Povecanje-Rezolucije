@@ -1,9 +1,9 @@
 #Potrebno za import
 
-#import numpy as np
+import numpy as np
 
 
-def BinLin(img, scaleFac):
+def BiLinear(img, scaleFac):
     
     #Rezolucija slike
     imgShape = img.shape

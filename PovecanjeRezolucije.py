@@ -10,6 +10,8 @@ from skimage.color import *
 from skimage import io
 import numpy as np
 
+import time
+
 
 def NeNe(img, scaleFac):
 
@@ -72,7 +74,7 @@ def NeNe(img, scaleFac):
     return imgNew
 
 
-def BinLin(img, scaleFac):
+def BiLin(img, scaleFac):
     
     #Rezolucija slike
     imgShape = img.shape
@@ -122,7 +124,7 @@ def BinLin(img, scaleFac):
     return imgNew
 
 
-def BinCub(img, scaleFac):
+def BiCub(img, scaleFac):
     
     #Rezolucija slike
     imgShape = img.shape
@@ -204,31 +206,65 @@ def BinCub(img, scaleFac):
 
 #Prikaz Slika
 imgOrg = io.imread('data/lena.png')
-img2 = io.imread('myData/lena2.png')
-img4 = io.imread('myData/lena4.png')
-img8 = io.imread('myData/lena8.png')
+imgDown4 = io.imread('myData/lena4.png')
+imgGray = io.imread('myData/grayScale.png')
+imgRed = io.imread('myData/redScale.png')
 print('loaded')
 
-imgOrgsc = BinLin(imgOrg, 4)
-img2sc = BinLin(img2, 2)
-img4sc = BinLin(img4, 4)
-img8sc = BinLin(img8, 8)
-print('BiLin done')
 
-img2scB = BinCub(img2, 2)
-img4scB = BinCub(img4, 4)
-img8scB = BinCub(img8, 8)
+#Povecanje rezolucije originalne slike 4 puta koristeci 3 funkcije i merenje vremena
+time1 = time.time()
+imgUp4NeNe = NeNe(imgOrg, 4)
+time2 = time.time()
+imgUp4BiCub = BiLin(imgOrg, 4)
+time3 = time.time()
+imgUp4BiLin = BiCub(imgOrg, 4)
+time4 = time.time()
+
+timeNeNe = time2 - time1
+timeBiLin = time3 - time2
+timeBiCUb = time4 - time3
+
+print(timeNeNe, timeBiLin, timeBiCUb)
+
+#Povecanje rezolucije slike losijeg kvaliteta nazad na originalnu rezoluciju
+imgDown4NeNe = NeNe(imgDown4, 4)
+imgDown4BiLin = BiLin(imgDown4, 4)
+imgDown4BiCub = BiCub(imgDown4, 4)
+
+#Povecanje sivog gradijenta
+imgGray64NeNe = NeNe(imgGray, 64)
+imgGray64BiLin = BiLin(imgGray, 64)
+imgGray64BiCub = BiCub(imgGray, 64)
+
+#Povecanje crvenog gradijenta
+imgRed64NeNe = NeNe(imgRed, 64)
+imgRed64BiLin = BiLin(imgRed, 64)
+imgRed64BiCub = BiCub(imgRed, 64)
 
 
-fig, ax = subplots(4, 2, figsize=(64,140), dpi=40, sharex=False)
-#tight_layout()
+fig, ax = subplots(4, 4, figsize = (64, 300), dpi = 200)
 
 ax[0, 0].imshow(imgOrg)
-ax[0, 1].imshow(imgOrgsc)
-ax[1, 0].imshow(img2scB)
-ax[1, 1].imshow(img2sc)
-ax[2, 0].imshow(img4scB)
-ax[2, 1].imshow(img4sc)
-ax[3, 0].imshow(img8scB)
-ax[3, 1].imshow(img8sc)
+ax[0, 1].imshow(imgUp4NeNe)
+ax[0, 2].imshow(imgUp4BiLin)
+ax[0, 3].imshow(imgUp4BiCub)
+
+ax[1, 0].imshow(imgDown4)
+ax[1, 1].imshow(imgDown4NeNe)
+ax[1, 2].imshow(imgDown4BiLin)
+ax[1, 3].imshow(imgDown4BiCub)
+
+ax[2, 0].imshow(imgGray)
+ax[2, 1].imshow(imgGray64NeNe)
+ax[2, 2].imshow(imgGray64BiLin)
+ax[2, 3].imshow(imgGray64BiCub)
+
+ax[3, 0].imshow(imgRed)
+ax[3, 1].imshow(imgRed64NeNe)
+ax[3, 2].imshow(imgRed64BiLin)
+ax[3, 3].imshow(imgRed64BiCub)
+
+
+plt.show()
 print('done')
