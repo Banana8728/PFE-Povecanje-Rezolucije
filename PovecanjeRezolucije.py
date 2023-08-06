@@ -243,7 +243,7 @@ imgRed64BiLin = BiLin(imgRed, 64)
 imgRed64BiCub = BiCub(imgRed, 64)
 
 
-fig, ax = subplots(4, 4, figsize = (64, 300), dpi = 200)
+fig, ax = subplots(4, 4, figsize = (32, 140), dpi = 100)
 
 ax[0, 0].imshow(imgOrg)
 ax[0, 1].imshow(imgUp4NeNe)
